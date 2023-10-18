@@ -6,9 +6,13 @@
 
 CREATE FUNCTION notify_event() RETURNS TRIGGER AS $$
   BEGIN
-    PERFORM pg_notify('events', NOW()::text);
+    PERFORM pg_notify('notify', NOW()::text);
     RETURN NULL;
   END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER router_notify_event AFTER INSERT OR UPDATE OR DELETE ON routes FOR EACH ROW EXECUTE PROCEDURE notify_event();
+CREATE TRIGGER routes_notify_event AFTER INSERT OR UPDATE OR DELETE ON routes FOR EACH ROW EXECUTE PROCEDURE notify_event();
+
+CREATE TRIGGER backends_notify_event AFTER INSERT OR UPDATE OR DELETE ON backends FOR EACH ROW EXECUTE PROCEDURE notify_event();
+
+CREATE TRIGGER users_notify_event AFTER INSERT OR UPDATE OR DELETE ON users FOR EACH ROW EXECUTE PROCEDURE notify_event();
