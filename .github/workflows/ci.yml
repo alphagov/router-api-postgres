@@ -36,11 +36,9 @@ jobs:
         env:
           RAILS_ENV: test
           TEST_DATABASE_URL: ${{ steps.setup-postgres.outputs.db-url }}
-        run: bundle exec rails db:setup
 
       - run: bundle exec rake spec
         env:
           RAILS_ENV: test
           TEST_DATABASE_URL: ${{ steps.setup-postgres.outputs.db-url }}
-        run: bundle exec rake spec
 
